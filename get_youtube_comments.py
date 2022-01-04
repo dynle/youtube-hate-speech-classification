@@ -2,11 +2,11 @@ import pandas
 from googleapiclient.discovery import build
 import config
 
-video_id = 'H69tJmsgd9I'
+video_id = '0e3GPea1Tyg'
 
 comments = list()
 api_obj = build('youtube', 'v3', developerKey=config.api_key)
-response = api_obj.commentThreads().list(part='snippet,replies', videoId=video_id, maxResults=10).execute()
+response = api_obj.commentThreads().list(part='snippet,replies', videoId=video_id, maxResults=20).execute()
 
 for item in response['items']:
     comment = item['snippet']['topLevelComment']['snippet']['textDisplay']
@@ -23,4 +23,5 @@ for item in response['items']:
     #     break
 
 df = pandas.DataFrame(comments)
-df.to_csv('results.csv', header=['comment'], index=None)
+path = './data/'
+df.to_csv(path+'comments.txt', index=None)
